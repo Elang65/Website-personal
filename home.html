@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://icon2.cleanpng.com/20200523/wqa/transparent-pixel-art-1713861663947.webp" rel="shortcut icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #202020;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+
+<head>
+<body>
+    <!-- NAVBAR -->
+    <div class="Navbar-Container">
+        <ul class="ul-navbar">
+            <li class="li-navbar"><a class="link-navbar"href="index.html">=</a></li>
+            <li class="li-navbar"><a class="link-navbar"href="home.html">HOME</a></li>
+            <li class="li-navbar"><a class="link-navbar"href="about.html">ABOUT ME</a></li>
+            <li class="li-navbar"><a class="link-navbar"href="contact.html">CONTACT ME</a></li>
+    </div>
+    <!-- NAVBAR END -->
+</body>
+</head>
+</head>
+<body>
+    <canvas id="solarSystem"></canvas>
+
+    <script>
+        const canvas = document.getElementById('solarSystem');
+        const ctx = canvas.getContext('2d');
+
+        // Atur ukuran canvas berdasarkan ukuran jendela
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let centerX = canvas.width / 2;
+        let centerY = canvas.height / 2;
+
+        let radius_sun_earth = 200; // Jarak dari Matahari ke Bumi
+        let radius_earth_moon = 50;  // Jarak dari Bumi ke Bulan
+
+        let angle_earth = 0; // Sudut awal Bumi
+        let angle_moon = 0;  // Sudut awal Bulan
+
+        function draw() {
+            // Membersihkan canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Menambahkan garis orbit untuk Bumi
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius_sun_earth, 0, Math.PI * 2, false);
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            // Matahari
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 60, 0, Math.PI * 2, false); // Matahari berdiameter 120
+            ctx.fillStyle = 'yellow';
+            ctx.shadowBlur = 40;
+            ctx.shadowColor = 'yellow';
+            ctx.fill();
+            ctx.shadowBlur = 0;
+
+            // Menghitung posisi Bumi
+            let earthX = centerX + radius_sun_earth * Math.cos(angle_earth);
+            let earthY = centerY + radius_sun_earth * Math.sin(angle_earth);
+
+            // Menambahkan garis orbit untuk Bulan di sekitar Bumi
+            ctx.beginPath();
+            ctx.arc(earthX, earthY, radius_earth_moon, 0, Math.PI * 2, false);
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+
+            // Bumi
+            ctx.beginPath();
+            ctx.arc(earthX, earthY, 20, 0, Math.PI * 2, false); // Bumi berdiameter 40
+            ctx.fillStyle = 'blue';
+            ctx.fill();
+
+            // Menghitung posisi Bulan
+            let moonX = earthX + radius_earth_moon * Math.cos(angle_moon);
+            let moonY = earthY + radius_earth_moon * Math.sin(angle_moon);
+
+            // Bulan
+            ctx.beginPath();
+            ctx.arc(moonX, moonY, 10, 0, Math.PI * 2, false); // Bulan berdiameter 20
+            ctx.fillStyle = 'gray';
+            ctx.fill();
+
+            // Memperbarui sudut untuk animasi
+            angle_earth += 0.01; // Kecepatan orbit Bumi
+            angle_moon += 0.05;  // Kecepatan orbit Bulan
+
+            // Memanggil fungsi draw lagi untuk animasi
+            requestAnimationFrame(draw); 
+        }
+
+        draw(); // Memulai animasi
+    </script>
+</body>
+</html>
